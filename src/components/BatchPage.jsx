@@ -1,41 +1,89 @@
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Twitter } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { setFilter, clearFilters } from '../redux/filterSlice'
+import { setFilter, clearFilters, setSort } from '../redux/filterSlice'
+import { ChevronUp, ChevronDown } from 'lucide-react'
 import data2024 from '../data/2024.json'
 import data2025 from '../data/2025.json'
+import Header from './Header'
+import Modal from './Modal'
+import { useState } from 'react'
+import Footer from './Footer'
 
 export default function BatchPage() {
   const { batch } = useParams()
   const dispatch = useDispatch()
   const filters = useSelector((state) => state.filter.filters)
+  const sort = useSelector((state) => state.filter.sort)
   const data = batch === '2024' ? data2024 : data2025
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedCompany, setSelectedCompany] = useState(null)
 
   const handleFilterChange = (field, value) => {
     dispatch(setFilter({ field, value }))
   }
 
-  const filteredData = data.filter(row => {
-    return Object.entries(filters).every(([field, value]) => {
-      if (!value) return true
-      
-      const rowValue = String(row[field] || '').toLowerCase()
-      return rowValue.includes(value.toLowerCase())
+  const handleSort = (field) => {
+    dispatch(setSort({ field }))
+  }
+
+  const handleCompanyClick = (companyDetails) => {
+    setSelectedCompany(companyDetails)
+    setIsModalOpen(true)
+  }
+
+  // Helper function to compare values for sorting
+  const compareValues = (a, b, field) => {
+    let valueA = a[field]
+    let valueB = b[field]
+
+    // Convert to numbers if possible
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      valueA = Number(valueA)
+      valueB = Number(valueB)
+    } else {
+      // Handle date strings
+      if (field === 'Date') {
+        valueA = new Date(valueA)
+        valueB = new Date(valueB)
+      } else {
+        // Convert to lowercase strings for string comparison
+        valueA = String(valueA || '').toLowerCase()
+        valueB = String(valueB || '').toLowerCase()
+      }
+    }
+
+    if (valueA < valueB) return -1
+    if (valueA > valueB) return 1
+    return 0
+  }
+
+  // Filter and sort data
+  const processedData = [...data]
+    .filter(row => {
+      return Object.entries(filters).every(([field, value]) => {
+        if (!value) return true
+        const rowValue = String(row[field] || '').toLowerCase()
+        return rowValue.includes(value.toLowerCase())
+      })
     })
-  })
+    .sort((a, b) => {
+      if (!sort.field) return 0
+      const comparison = compareValues(a, b, sort.field)
+      return sort.direction === 'asc' ? comparison : -comparison
+    })
+
+  // Sortable columns configuration
+  const sortableColumns = [
+    'S.No.', 'Date', 'Company', 'CGPA', 'CTC (in LPA)', 'Base (in LPA)',
+    'Duration of Internship', 'Compensation in Internship', 'Total Applied',
+    'Resume Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Total Offers'
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
-      <header className="p-4 flex justify-center items-center">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="cursor-pointer bg-white bg-opacity-10 text-white px-4 py-2 rounded-full flex items-center space-x-2 border border-white border-opacity-20"
-        >
-          <span className="text-sm">Made by: @aryancodes_tech</span>
-          <img src="/aryanDP.jpg" className="w-6 h-6 bg-gray-300 rounded-full"/>
-        </motion.div>
-      </header>
+      <Header />
 
       <main className="flex-grow p-8">
         <motion.h1 
@@ -62,7 +110,28 @@ export default function BatchPage() {
                 {Object.keys(data[0]).map((header) => (
                   <th key={header} className="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">
                     <div className="flex flex-col space-y-2">
-                      <span>{header}</span>
+                      <div className="flex items-center space-x-2">
+                        <span>{header}</span>
+                        {sortableColumns.includes(header) && (
+                          <button
+                            onClick={() => handleSort(header)}
+                            className="hover:text-blue-300"
+                          >
+                            {sort.field === header ? (
+                              sort.direction === 'asc' ? (
+                                <ChevronUp size={16} />
+                              ) : (
+                                <ChevronDown size={16} />
+                              )
+                            ) : (
+                              <div className="flex flex-col">
+                                <ChevronUp size={12} />
+                                <ChevronDown size={12} />
+                              </div>
+                            )}
+                          </button>
+                        )}
+                      </div>
                       <input
                         type="text"
                         placeholder={`Filter ${header}`}
@@ -76,10 +145,14 @@ export default function BatchPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-blue-900 divide-opacity-25">
-              {filteredData.map((row, idx) => (
-                <tr key={idx} className="hover:bg-blue-900 hover:bg-opacity-20 transition-colors">
+              {processedData.map((row, idx) => (
+                <tr 
+                  key={idx} 
+                  className="hover:bg-blue-900 hover:bg-opacity-20 transition-colors cursor-pointer" 
+                  onClick={() => handleCompanyClick(row)}
+                >
                   {Object.values(row).map((value, cellIdx) => (
-                    <td key={cellIdx} className="px-6 py-4 whitespace-nowrap text-sm">
+                    <td key={cellIdx} className="px-6 py-4 whitespace-nowrap text-sm text-white">
                       {value?.toString() || '-'}
                     </td>
                   ))}
@@ -90,38 +163,9 @@ export default function BatchPage() {
         </div>
       </main>
 
-      <footer className="p-8 text-center">
-        <div className="flex justify-center space-x-6 mb-4">
-          <motion.a
-            href="https://github.com/aryanploxxx"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.2 }}
-            className="text-blue-200 hover:text-blue-100"
-          >
-            <Github size={24} />
-          </motion.a>
-          <motion.a
-            href="https://linkedin.com/in/aryanploxxx"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.2 }}
-            className="text-blue-200 hover:text-blue-100"
-          >
-            <Linkedin size={24} />
-          </motion.a>
-          <motion.a
-            href="https://twitter.com/aryancodes_tech"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.2 }}
-            className="text-blue-200 hover:text-blue-100"
-          >
-            <Twitter size={24} />
-          </motion.a>
-        </div>
-        <p className="text-sm text-blue-200">© 2023 Placement X. All rights reserved.</p>
-      </footer>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} companyDetails={selectedCompany || {}} />
+
+      <Footer />
     </div>
   )
 } 
