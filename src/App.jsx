@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter } from 'lucide-react'
-// import BatchData from './batch-data'
+import BatchData from './components/BatchData'
 
 export default function App() {
   const [selectedBatch, setSelectedBatch] = useState(null)
@@ -24,7 +24,7 @@ export default function App() {
           transition={{ duration: 0.5 }}
           className="text-6xl font-bold mb-4 text-blue-200"
         >
-          Placement X
+          Placement Buddy
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: -20 }}
@@ -92,7 +92,7 @@ export default function App() {
             <Twitter size={24} />
           </motion.a>
         </div>
-        <p className="text-sm text-blue-200">© 2023 Placement X. All rights reserved.</p>
+        <p className="text-sm text-blue-200">© 2024 Placement Buddy. All rights reserved.</p>
       </footer>
     </div>
   )
