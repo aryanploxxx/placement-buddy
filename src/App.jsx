@@ -9,14 +9,16 @@ export default function App() {
   const [selectedBatch, setSelectedBatch] = useState(null)
 
   return (
-    <div className="font-['Poppins'] bg-grid-black/[0.2] z-10 min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
+    <div className="relative font-['Poppins'] bg-grid-black/[0.2] z-10 min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
         
-        <section className='z-30 bg-cover' style={{
-          backgroundImage: "url('/gridNew.png')",
+      <section className='z-30 bg-cover' style={{
+        backgroundImage: "url('/gridNew.png')",
       }}>
 
         {/* Header */}
-        <Header />
+        <div className='px-4 py-6 md:py-10 '>
+          <Header showToolTip={true}/>
+        </div>
 
         <main className="my-12 mt-6 flex-grow flex flex-col items-center justify-center text-center px-4">
           {/* Heading */}
