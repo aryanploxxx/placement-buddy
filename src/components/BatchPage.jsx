@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setFilter, clearFilters, setSort } from '../redux/filterSlice'
-import { ChevronUp, ChevronDown, Sparkles, ArrowLeft } from 'lucide-react'
+import { ChevronUp, ChevronDown, Sparkles, ArrowLeft, ArrowRight, ChevronsLeftRightEllipsis } from 'lucide-react'
 import data2024 from '../data/2024.json'
 import data2025 from '../data/2025-v2.json'
 import Header from './Header'
@@ -85,7 +85,7 @@ export default function BatchPage() {
   ]
 
   return (
-    <div className="font-['Poppins'] min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
+    <div className="font-['Poppins'] min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col relative">
       <div className='flex flex-row justify-start gap-5 md:gap-0 md:justify-between items-center p-4 md:p-8'>
         
         <ArrowLeft className='hover:cursor-pointer' onClick={() => {
@@ -104,12 +104,20 @@ export default function BatchPage() {
         </div>
       </div>
 
+      <div className="flex flex-row items-center gap-2 scroll-arrow absolute top-[6.2%]  bg-black/30 right-[60px] border-2 border-white/30 rounded-full p-3 px-5">
+        <ChevronsLeftRightEllipsis /> 
+        <span className='hidden md:block text-sm'>scroll</span>
+      </div>
+
       <main className="flex-grow p-4 md:p-8">
 
-        <div className="mb-6 flex justify-center md:justify-end items-center">
+        <div className="mb-6 flex justify-between items-center">
+          <h1 className='text-[10px] w-1/2 md:w-full md:text-lg font-poppins tracking-wide text-gray-100 '>
+            Disclaimer: This is v1.0 of Placememnt Buddy. Currently contains data from July 2023 - August 2024.
+          </h1>
           <button
             onClick={() => dispatch(clearFilters())}
-            className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+            className="bg-red-500 px-4 py-2 w-auto text-nowrap rounded-md hover:bg-red-700 transition-colors"
           >
             Clear Filters
           </button>
@@ -180,6 +188,7 @@ export default function BatchPage() {
             </tbody>
           </table>
         </div>
+
       </main>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} companyDetails={selectedCompany || {}} />
