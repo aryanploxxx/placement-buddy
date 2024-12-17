@@ -14,7 +14,7 @@ export default function App() {
       <Analytics/>
       <div className="relative font-['Poppins'] bg-grid-black/[0.2] z-10 min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
         
-        <section className='z-30 bg-cover' style={{
+        <section className='z-30 bg-cover min-h-screen' style={{
           backgroundImage: "url('/gridNew.png')",
         }}>
 
