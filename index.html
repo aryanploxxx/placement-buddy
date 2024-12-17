@@ -7,7 +7,25 @@
     <title>Placement Buddy</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+      body {
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version */
+      }
     </style>
+    <script>
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); // Disable right-click context menu
+      });
+
+      document.addEventListener('keydown', function(e) {
+        // Disable Ctrl+C, Ctrl+X, Ctrl+V
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'v')) {
+          e.preventDefault();
+        }
+      });
+    </script>
     <meta property="og:title" content="Placement Buddy: JIIT Placement Tracker">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://github.com/user-attachments/assets/226fc215-2e4a-41d2-9652-c503891109f4">
