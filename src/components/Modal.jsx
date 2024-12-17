@@ -13,7 +13,7 @@ export const Modal = ({ isOpen, onClose, companyDetails }) => {
 
   return (
     <ModalOverlay
-      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center mx-4 md:mx-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

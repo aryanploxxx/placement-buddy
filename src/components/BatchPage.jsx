@@ -86,7 +86,7 @@ export default function BatchPage() {
 
   return (
     <div className="font-['Poppins'] min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
-      <div className='flex flex-row justify-between items-center p-4 md:p-8'>
+      <div className='flex flex-row justify-start gap-5 md:gap-0 md:justify-between items-center p-4 md:p-8'>
         
         <ArrowLeft className='hover:cursor-pointer' onClick={() => {
           console.log('Back button clicked');

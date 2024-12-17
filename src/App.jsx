@@ -20,7 +20,7 @@ export default function App() {
           <Header showToolTip={true}/>
         </div>
 
-        <main className="my-12 mt-6 flex-grow flex flex-col items-center justify-center text-center px-4">
+        <main className="my-6 md:my-12 mt-6 flex-grow flex flex-col items-center justify-center text-center px-4">
           {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
@@ -95,7 +95,7 @@ export default function App() {
           {selectedBatch && <BatchData batch={selectedBatch} />}
         
           {/* <img src='heroSection.png' className='w-full sm:w-[80%] mt-20 rounded-sm sm:rounded-lg shadow-[0_0px_20px_#FFFFFF4D]'/> */}
-          <div className='bg-white/30 p-[16px] rounded-xl border-[6px] border-white/10 w-full sm:w-[80%] mt-20'>
+          <div className='bg-white/30 p-[16px] rounded-xl border-[6px] border-white/10 w-full sm:w-[80%] mt-10 md:mt-20'>
             <img src='checking.png' className=' rounded-sm sm:rounded-lg'/>
           </div>
         </main>
@@ -103,6 +103,7 @@ export default function App() {
         {/* Footer */}
         <Footer />
       </section>
+
     </div>
   )
 }
