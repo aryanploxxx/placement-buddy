@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setFilter, clearFilters, setSort } from '../redux/filterSlice'
 import { ChevronUp, ChevronDown, Sparkles, ArrowLeft } from 'lucide-react'
 import data2024 from '../data/2024.json'
-import data2025 from '../data/2025.json'
+import data2025 from '../data/2025-v2.json'
 import Header from './Header'
 import Modal from './Modal'
 import { useState } from 'react'
 import Footer from './Footer'
+import { formatNumber } from '../utils/formatNumber'; // Import the utility function
 
 export default function BatchPage() {
   const { batch } = useParams()
@@ -86,15 +87,21 @@ export default function BatchPage() {
   return (
     <div className="font-['Poppins'] min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col">
       <div className='flex flex-row justify-between items-center p-4 md:p-8'>
-        <ArrowLeft className='hover:cursor-pointer' onClick={(e) => { e.preventDefault(); navigate(-1) }} />
+        
+        <ArrowLeft className='hover:cursor-pointer' onClick={() => {
+          console.log('Back button clicked');
+          navigate(-1);
+        }} />
         <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="ml-20 text-lg md:text-4xl font-bold text-center text-white flex flex-row items-center gap-4"
+            className="md:ml-20 text-lg md:text-4xl font-bold text-center text-white flex flex-row items-center gap-4"
           >
-           <Sparkles size={34} className='text-blue-100'/> Placement Data - {batch} Batch
-          </motion.h1>
-        <Header showToolTip={false}/>
+           <Sparkles size={34} className='text-blue-100 hidden md:block'/> Placement Data - {batch} Batch
+        </motion.h1>
+        <div className='hidden md:block'>
+          <Header showToolTip={false}/>
+        </div>
       </div>
 
       <main className="flex-grow p-4 md:p-8">
@@ -163,7 +170,9 @@ export default function BatchPage() {
                 >
                   {Object.values(row).map((value, cellIdx) => (
                     <td key={cellIdx} className="text-wrap w-8 px-6 py-2 md:py-3 whitespace-nowrap text-sm text-white">
-                      {value?.toString() || '-'}
+                      {typeof value === 'number' || (typeof value === 'string' && value.includes('k')) 
+                        ? formatNumber(value) 
+                        : value?.toString() || '-'}
                     </td>
                   ))}
                 </tr>

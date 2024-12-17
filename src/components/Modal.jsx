@@ -3,6 +3,7 @@
 
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
+import { formatNumber } from '../utils/formatNumber'
 
 const ModalOverlay = motion.div
 const ModalContent = motion.div
@@ -36,18 +37,18 @@ export const Modal = ({ isOpen, onClose, companyDetails }) => {
             <span className="sr-only">Close</span>
           </button>
           <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
-            <DetailItem label="Date" value={companyDetails.Date} />
-            <DetailItem label="Job Role" value={companyDetails['Job Role']} />
-            <DetailItem label="CGPA Criteria" value={companyDetails.CGPA} />
-            <DetailItem label="CTC (in LPA)" value={companyDetails['CTC (in LPA)']} highlight />
-            <DetailItem label="Duration of Internship" value={companyDetails['Duration of Internship']} />
-            <DetailItem label="Compensation in Internship" value={companyDetails['Compensation in Internship']} highlight />
-            <DetailItem label="Total Applied" value={companyDetails['Total Applied']} />
-            <DetailItem label="Resume Shortlist" value={companyDetails['Resume Shortlist']} />
-            <DetailItem label="Round 1" value={companyDetails['Round 1']} />
-            <DetailItem label="Round 2" value={companyDetails['Round 2']} />
-            <DetailItem label="Round 3" value={companyDetails['Round 3']} />
-            <DetailItem label="Total Offers" value={companyDetails['Total Offers']} highlight />
+            {companyDetails.Date && <DetailItem label="Date" value={companyDetails.Date} />}
+            {companyDetails['Job Role'] && <DetailItem label="Job Role" value={companyDetails['Job Role']} />}
+            {companyDetails.CGPA && <DetailItem label="CGPA Criteria" value={companyDetails.CGPA} />}
+            {companyDetails['CTC (in LPA)'] && <DetailItem label="CTC (in LPA)" value={formatNumber(companyDetails['CTC (in LPA)'])} highlight />}
+            {companyDetails['Duration of Internship'] && <DetailItem label="Duration of Internship" value={companyDetails['Duration of Internship']} />}
+            {companyDetails['Compensation in Internship'] && <DetailItem label="Compensation in Internship" value={formatNumber(companyDetails['Compensation in Internship'])} highlight />}
+            {companyDetails['Total Applied'] && <DetailItem label="Total Applied" value={companyDetails['Total Applied']} />}
+            {companyDetails['Resume Shortlist'] && <DetailItem label="Resume Shortlist" value={companyDetails['Resume Shortlist']} />}
+            {companyDetails['Round 1'] && <DetailItem label="Round 1" value={companyDetails['Round 1']} />}
+            {companyDetails['Round 2'] && <DetailItem label="Round 2" value={companyDetails['Round 2']} />}
+            {companyDetails['Round 3'] && <DetailItem label="Round 3" value={companyDetails['Round 3']} />}
+            {companyDetails['Total Offers'] && <DetailItem label="Total Offers" value={companyDetails['Total Offers']} highlight />}
           </div>
         </div>
       </ModalContent>
