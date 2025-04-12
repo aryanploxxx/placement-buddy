@@ -9,6 +9,7 @@
 - If you come across any feature you would like to see in the website, feel free to create a new issue and assign to yourself if you want to work on it.
 
 ### Steps to Raise a Pull Request:
+**DO NOT work on the main or dev branch, always create a new branch to work on**
 ```sh
 git checkout dev
 ```
