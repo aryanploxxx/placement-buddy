@@ -104,7 +104,7 @@ export default function BatchPage() {
         </div>
       </div>
 
-      <div className="flex flex-row items-center gap-2 scroll-arrow absolute top-[6.2%]  bg-black/30 right-[60px] border-2 border-white/30 rounded-full p-3 px-5">
+      <div className="flex flex-row items-center gap-2 scroll-arrow absolute bottom-[50%]  bg-black/30 right-[60px] border-2 border-white/30 rounded-full p-3 px-5">
         <ChevronsLeftRightEllipsis /> 
         <span className='hidden md:block text-sm'>scroll</span>
       </div>
@@ -123,9 +123,9 @@ export default function BatchPage() {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white bg-opacity-10 rounded-lg overflow-hidden">
-            <thead className="bg-blue-900 bg-opacity-50 sticky top-0 z-10">
+        <div className="overflow-x-auto max-h-[70vh] relative">
+          <table className="min-w-full bg-white bg-opacity-10 rounded-lg">
+            <thead className="bg-blue-900 sticky top-0 z-10">
               <tr>
                 {Object.keys(data[0]).map((header) => (
                   <th 
