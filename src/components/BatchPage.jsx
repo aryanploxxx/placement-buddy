@@ -87,25 +87,25 @@ export default function BatchPage() {
   return (
     <div className="font-['Poppins'] min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950 text-white flex flex-col relative">
       <div className='flex flex-row justify-start gap-5 md:gap-0 md:justify-between items-center p-4 md:p-8'>
-        
+
         <ArrowLeft className='hover:cursor-pointer' onClick={() => {
           console.log('Back button clicked');
           navigate(-1);
         }} />
-        <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:ml-20 text-lg md:text-4xl font-bold text-center text-white flex flex-row items-center gap-4"
-          >
-           <Sparkles size={34} className='text-blue-100 hidden md:block'/> Placement Data - {batch} Batch
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:ml-20 text-lg md:text-4xl font-bold text-center text-white flex flex-row items-center gap-4"
+        >
+          <Sparkles size={34} className='text-blue-100 hidden md:block' /> Placement Data - {batch} Batch
         </motion.h1>
         <div className='hidden md:block'>
-          <Header showToolTip={false}/>
+          <Header showToolTip={false} />
         </div>
       </div>
 
-      <div className="flex flex-row items-center gap-2 scroll-arrow absolute top-[6.2%]  bg-black/30 right-[60px] border-2 border-white/30 rounded-full p-3 px-5">
-        <ChevronsLeftRightEllipsis /> 
+      <div className="flex flex-row items-center gap-2 scroll-arrow absolute top-[50%]  bg-black/30 right-[60px] border-2 border-white/30 rounded-full p-3 px-5">
+        <ChevronsLeftRightEllipsis />
         <span className='hidden md:block text-sm'>scroll</span>
       </div>
 
@@ -123,70 +123,72 @@ export default function BatchPage() {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white bg-opacity-10 rounded-lg overflow-hidden">
-            <thead className="bg-blue-900 bg-opacity-50 sticky top-0 z-10">
-              <tr>
-                {Object.keys(data[0]).map((header) => (
-                  <th 
-                    key={header} 
-                    className={`px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider ${header === 'S.No.' ? 'w-8' : ''}`}
-                  >
-                    <div className="flex flex-col space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <span>{header}</span>
-                        {sortableColumns.includes(header) && (
-                          <button
-                            onClick={() => handleSort(header)}
-                            className="hover:text-blue-300"
-                          >
-                            {sort.field === header ? (
-                              sort.direction === 'asc' ? (
-                                <ChevronUp size={16} />
+        <div className="overflow-x-auto relative">
+          <div className="max-h-[calc(100vh-200px)] overflow-y-auto"> 
+            <table className="min-w-full bg-white bg-opacity-10 rounded-lg">
+              <thead className="bg-blue-900 sticky top-0 z-10">
+                <tr>
+                  {Object.keys(data[0]).map((header) => (
+                    <th
+                      key={header}
+                      className={`px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider ${header === 'S.No.' ? 'w-8' : ''}`}
+                    >
+                      <div className="flex flex-col space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <span>{header}</span>
+                          {sortableColumns.includes(header) && (
+                            <button
+                              onClick={() => handleSort(header)}
+                              className="hover:text-blue-300"
+                            >
+                              {sort.field === header ? (
+                                sort.direction === 'asc' ? (
+                                  <ChevronUp size={16} />
+                                ) : (
+                                  <ChevronDown size={16} />
+                                )
                               ) : (
-                                <ChevronDown size={16} />
-                              )
-                            ) : (
-                              <div className="flex flex-col">
-                                <ChevronUp size={12} />
-                                <ChevronDown size={12} />
-                              </div>
-                            )}
-                          </button>
+                                <div className="flex flex-col">
+                                  <ChevronUp size={12} />
+                                  <ChevronDown size={12} />
+                                </div>
+                              )}
+                            </button>
+                          )}
+                        </div>
+                        {header !== 'S.No.' && (
+                          <input
+                            type="text"
+                            placeholder={`Filter ${header}`}
+                            value={filters[header] || ''}
+                            onChange={(e) => handleFilterChange(header, e.target.value)}
+                            className="bg-blue-800 bg-opacity-50 text-white px-2 py-1 w-auto rounded text-xs placeholder-blue-300"
+                          />
                         )}
                       </div>
-                      {header !== 'S.No.' && (
-                        <input
-                          type="text"
-                          placeholder={`Filter ${header}`}
-                          value={filters[header] || ''}
-                          onChange={(e) => handleFilterChange(header, e.target.value)}
-                          className="bg-blue-800 bg-opacity-50 text-white px-2 py-1 w-auto rounded text-xs placeholder-blue-300"
-                        />
-                      )}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-blue-900 divide-opacity-25">
-              {processedData.map((row, idx) => (
-                <tr 
-                  key={idx} 
-                  className="hover:bg-blue-900 hover:bg-opacity-20 transition-colors cursor-pointer" 
-                  onClick={() => handleCompanyClick(row)}
-                >
-                  {Object.values(row).map((value, cellIdx) => (
-                    <td key={cellIdx} className="text-wrap w-8 px-6 py-2 md:py-3 whitespace-nowrap text-sm text-white">
-                      {typeof value === 'number' || (typeof value === 'string' && value.includes('k')) 
-                        ? formatNumber(value) 
-                        : value?.toString() || '-'}
-                    </td>
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-blue-900 divide-opacity-25">
+                {processedData.map((row, idx) => (
+                  <tr
+                    key={idx}
+                    className="hover:bg-blue-900 hover:bg-opacity-20 transition-colors cursor-pointer"
+                    onClick={() => handleCompanyClick(row)}
+                  >
+                    {Object.values(row).map((value, cellIdx) => (
+                      <td key={cellIdx} className="text-wrap w-8 px-6 py-2 md:py-3 whitespace-nowrap text-sm text-white">
+                        {typeof value === 'number' || (typeof value === 'string' && value.includes('k'))
+                          ? formatNumber(value)
+                          : value?.toString() || '-'}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </main>
