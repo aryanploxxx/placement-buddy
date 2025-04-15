@@ -133,12 +133,12 @@ export default function BatchPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // 3000ms = 3 seconds
+    }, 5000); // 3000ms = 3 seconds
 
     // Cleanup the timer if the component unmounts or loading changes
     return () => clearTimeout(timer);
   }, []);
-
+  
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
