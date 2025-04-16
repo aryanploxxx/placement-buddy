@@ -20,6 +20,7 @@
      ![Share Settings Screenshot](assets/share-settings.png)
 
    - Copy the **Spreadsheet ID** from the URL.
+     ![Getting sheet id Screenshot](assets/sheet_id.png)
    - Create a `.env` file in the root directory (you can copy from `.env.example`).
    - Paste the Spreadsheet ID in the `.env` file.
 
@@ -27,6 +28,7 @@
 
    - Visit [Google Cloud Console](https://console.cloud.google.com) and sign in.
    - Create a new project.
+   - APi and services -> Enable apis
    - Enable the following APIs:
      - Google Sheets API
      - Google Drive API  
