@@ -17,10 +17,10 @@
    - Convert your JSON data to CSV using any online JSON-to-CSV converter.
    - Import the CSV into a Google Sheet and name the file `2024` or `2025` (based on your JSON data).
    - Click **Share** → Set access to **"Anyone with the link (Viewer)"**.  
-     ![Share Settings Screenshot](assets/share-settings.png)
+     ![Share Settings Screenshot](src/assets/share-settings.png)
 
    - Copy the **Spreadsheet ID** from the URL.
-     ![Getting sheet id Screenshot](assets/sheet_id.png)
+     ![Getting sheet id Screenshot](src/assets/sheet_id.png)
    - Create a `.env` file in the root directory (you can copy from `.env.example`).
    - Paste the Spreadsheet ID in the `.env` file.
 
@@ -32,7 +32,7 @@
    - Enable the following APIs:
      - Google Sheets API
      - Google Drive API  
-       ![Enable APIs Screenshot](assets/enable-apis.png)
+       ![Enable APIs Screenshot](src/assets/enable-apis.png)
 
    - Go to **APIs & Services → Credentials → Create Credentials → API Key**.
    - Copy the API key and add it to your `.env` file.
